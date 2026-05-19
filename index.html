@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALU·LOZZA — El mundo dulce sin trampa ⚡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Caveat:wght@500;700&family=Unbounded:wght@500;700;800&family=Inter:wght@800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0d0a0a;
+  --dark:#1a1614;
+  --white:#ffffff;
+  --soft:#f7f7f4;
+  --softer:#fafaf7;
+  --yellow:#f4c842;
+  --yellow-bright:#ffd54a;
+  --yellow-dark:#d9a820;
+  --shadow:rgba(13,10,10,.15);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--white);color:var(--ink);font-family:'Familjen Grotesk',sans-serif;font-size:17px;line-height:1.55;overflow-x:hidden;position:relative}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.15;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='2' seed='8'/%3E%3CfeColorMatrix values='0 0 0 0 .15 0 0 0 0 .12 0 0 0 0 .1 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+h1,h2,h3{font-family:'Unbounded','Inter',sans-serif;font-weight:800;letter-spacing:-.025em;line-height:.95}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:2px solid var(--ink)}
+.brand-mark{display:inline-flex;align-items:center;gap:6px;font-family:'Unbounded','Inter',sans-serif;font-size:22px;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.brand-mark .zap{display:inline-block;width:24px;height:24px;background:var(--yellow);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E") center/contain no-repeat;animation:wiggle 3s ease-in-out infinite}
+@keyframes wiggle{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.nav-links{display:flex;gap:8px;list-style:none}
+.nav-links a{color:var(--ink);text-decoration:none;padding:8px 14px;border-radius:100px;font-weight:500;font-size:14px;transition:all .2s}
+.nav-links a:hover{background:var(--ink);color:var(--white)}
+.nav-cta{background:var(--yellow);color:var(--ink);border:2px solid var(--ink);padding:10px 22px;border-radius:100px;font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:14px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:all .15s}
+.nav-cta:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+
+@keyframes float1{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-20px) rotate(8deg)}}
+@keyframes float2{0%,100%{transform:translateY(0) rotate(5deg)}50%{transform:translateY(-15px) rotate(-12deg)}}
+@keyframes float3{0%,100%{transform:translateY(0) rotate(0deg) scale(1)}50%{transform:translateY(-25px) rotate(15deg) scale(1.08)}}
+@keyframes spin-slow{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+
+.hero{position:relative;padding:140px 28px 80px;background:var(--white);overflow:hidden}
+.hero-zap{position:absolute;width:50px;height:50px;background:var(--yellow);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(2px 2px 0 var(--ink));pointer-events:none;z-index:1}
+.zap-a{top:14%;left:8%;animation:float1 6s ease-in-out infinite}
+.zap-b{top:25%;right:6%;width:38px;height:38px;animation:float2 7s ease-in-out infinite}
+.zap-c{bottom:18%;left:4%;width:32px;height:32px;animation:float3 5s ease-in-out infinite}
+.zap-d{bottom:30%;right:10%;width:44px;height:44px;animation:float1 8s ease-in-out infinite}
+.sparkle{position:absolute;background:var(--ink);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0l1.5 9 9 1.5-9 1.5L12 24l-1.5-9-9-1.5 9-1.5z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0l1.5 9 9 1.5-9 1.5L12 24l-1.5-9-9-1.5 9-1.5z'/%3E%3C/svg%3E") center/contain no-repeat;pointer-events:none;z-index:1}
+.sp-a{top:30%;left:38%;width:18px;height:18px;animation:pulse 2.5s ease-in-out infinite}
+.sp-b{top:65%;left:30%;width:14px;height:14px;animation:pulse 2s ease-in-out infinite .5s}
+.sp-c{top:18%;right:42%;width:20px;height:20px;animation:pulse 2.8s ease-in-out infinite 1s}
+
+.hero-grid{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center;position:relative;z-index:5}
+.hello-sticker{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--white);padding:8px 16px;border-radius:100px;font-family:'Caveat',cursive;font-size:20px;font-weight:700;transform:rotate(-2deg);margin-bottom:24px;box-shadow:4px 4px 0 var(--yellow)}
+.hello-sticker::before{content:'⚡';color:var(--yellow);font-size:18px;font-family:sans-serif}
+
+h1.mega{font-size:clamp(46px,7.2vw,92px);font-family:'Unbounded','Inter',sans-serif;font-weight:800;line-height:1.05;letter-spacing:-.035em;margin-bottom:24px;color:var(--ink)}
+h1.mega .yel{display:inline-block;background:var(--yellow);color:var(--ink);padding:0 14px;transform:rotate(-1.5deg);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);line-height:1}
+h1.mega .squiggle{position:relative;display:inline-block}
+h1.mega .squiggle::after{content:'';position:absolute;left:-2%;right:-2%;bottom:-2px;height:14px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M0 4 Q 12.5 0 25 4 T 50 4 T 75 4 T 100 4' stroke='%23f4c842' stroke-width='3' fill='none'/%3E%3C/svg%3E") repeat-x;background-size:60px 14px;z-index:-1}
+
+.hero-lead{font-size:20px;line-height:1.5;max-width:480px;margin-bottom:32px;color:var(--ink);font-weight:500}
+.hero-lead .marker{background:var(--yellow);padding:0 6px;border-radius:4px;font-weight:700}
+.hero-buttons{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:16px 28px;border-radius:100px;font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;border:2.5px solid var(--ink);transition:all .15s}
+.btn-pri{background:var(--yellow);color:var(--ink);box-shadow:5px 5px 0 var(--ink)}
+.btn-pri:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.btn-sec{background:var(--white);color:var(--ink);box-shadow:5px 5px 0 var(--ink)}
+.btn-sec:hover{background:var(--ink);color:var(--white)}
+.hero-mini-quotes{display:flex;gap:10px;flex-wrap:wrap}
+.tag-mini{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--white);padding:8px 14px;border-radius:100px;font-size:13px;font-weight:600}
+.tag-mini .dot-y{width:8px;height:8px;background:var(--yellow);border-radius:50%}
+
+.hero-stage{position:relative;aspect-ratio:1;max-width:520px;min-height:460px;width:100%;margin:0 auto}
+.stage-bg{position:absolute;inset:0;background:var(--yellow);border-radius:50%;border:3px solid var(--ink);box-shadow:10px 10px 0 var(--ink);overflow:hidden}
+.stage-bg::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,var(--ink) 1.5px,transparent 2px);background-size:18px 18px;opacity:.15}
+.stage-bg::after{content:'';position:absolute;top:-30%;left:-30%;width:60%;height:60%;background:var(--yellow-bright);border-radius:50%;opacity:.5;filter:blur(40px)}
+.stage-product{position:absolute;inset:5%;display:flex;align-items:center;justify-content:center;z-index:5}
+.stage-product img{max-width:78%;max-height:95%;object-fit:contain;filter:drop-shadow(0 20px 30px rgba(13,10,10,.35))}
+
+.orbit-tag{position:absolute;z-index:10;background:var(--white);color:var(--ink);padding:10px 16px;border-radius:100px;font-size:14px;font-weight:700;border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.orbit-tag.dark{background:var(--ink);color:var(--white)}
+.orbit-tag.yel{background:var(--yellow);color:var(--ink)}
+.orbit-1{top:-2%;right:15%;transform:rotate(8deg);animation:float1 5s ease-in-out infinite}
+.orbit-2{top:30%;right:-8%;transform:rotate(-4deg);animation:float2 6s ease-in-out infinite .5s}
+.orbit-3{bottom:8%;right:5%;transform:rotate(6deg);animation:float3 5.5s ease-in-out infinite 1s}
+.orbit-4{bottom:18%;left:-10%;transform:rotate(-8deg);animation:float1 7s ease-in-out infinite 1.5s}
+.orbit-5{top:45%;left:-12%;transform:rotate(4deg);animation:float2 5.8s ease-in-out infinite 2s}
+
+.handwritten-note{position:absolute;font-family:'Caveat',cursive;font-size:24px;font-weight:700;color:var(--ink);z-index:11}
+.note-1{top:-30px;left:25%;transform:rotate(-5deg)}
+
+.marquee{background:var(--ink);color:var(--yellow);padding:20px 0;overflow:hidden;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);position:relative;z-index:5}
+.marquee-track{display:flex;gap:32px;animation:slide 35s linear infinite;white-space:nowrap;align-items:center}
+.marquee-item{font-family:'Unbounded','Inter',sans-serif;font-size:36px;letter-spacing:-.01em;display:inline-flex;align-items:center;gap:24px}
+.marquee-item.cream{color:var(--white)}
+.marquee-item .star{display:inline-block;width:24px;height:24px;background:var(--yellow);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l2.4 7.2H22l-6 4.6 2.4 7.2-6.4-4.6-6.4 4.6 2.4-7.2-6-4.6h7.6z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l2.4 7.2H22l-6 4.6 2.4 7.2-6.4-4.6-6.4 4.6 2.4-7.2-6-4.6h7.6z'/%3E%3C/svg%3E") center/contain no-repeat;animation:spin-slow 8s linear infinite}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+.versus{padding:100px 28px;background:var(--white);position:relative}
+.versus-intro{text-align:center;max-width:900px;margin:0 auto 70px}
+
+.fable-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1200px;margin:0 auto}
+.fable-card{background:var(--soft);border:3px solid var(--ink);border-radius:28px;padding:36px 30px;position:relative;box-shadow:8px 8px 0 var(--ink);text-align:center;transition:all .25s}
+.fable-card:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:10px 14px 0 var(--ink);background:var(--yellow)}
+.fable-card:nth-child(2):hover{transform:translateY(-6px) rotate(1deg)}
+.fable-svg{width:130px;height:130px;margin:0 auto 12px;display:block}
+.fable-num{font-family:'Caveat',cursive;font-size:22px;font-weight:700;color:var(--ink);opacity:.55;display:block;margin-bottom:6px}
+.fable-card h3{font-size:26px;margin-bottom:14px;line-height:1.05}
+.fable-card p{font-size:15px;line-height:1.55;font-weight:500}
+.fable-card p b{font-weight:700;background:var(--white);padding:0 4px;border-radius:3px}
+.fable-card:hover p b{background:var(--ink);color:var(--yellow)}
+.sticker-line{display:inline-block;background:var(--ink);color:var(--yellow);padding:8px 20px;border-radius:100px;font-family:'Caveat',cursive;font-weight:700;font-size:22px;transform:rotate(-2deg);margin-bottom:24px}
+.versus-intro h2{font-size:clamp(40px,7vw,80px);margin-bottom:16px}
+.versus-intro h2 .yel{background:var(--yellow);color:var(--ink);padding:0 14px;display:inline-block;border:3px solid var(--ink);transform:rotate(-1deg);box-shadow:5px 5px 0 var(--ink)}
+.versus-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:30px;max-width:1200px;margin:0 auto;align-items:center}
+.character-card{background:var(--soft);border:3px solid var(--ink);border-radius:24px;padding:40px 30px;position:relative;box-shadow:8px 8px 0 var(--ink);text-align:center}
+.character-card.good{background:var(--yellow)}
+.char-svg{width:140px;height:140px;margin:0 auto 16px;display:block}
+.character-card h3{font-size:32px;margin-bottom:8px;line-height:1}
+.character-card .nickname{font-family:'Caveat',cursive;font-size:20px;font-weight:700;color:var(--ink);opacity:.7;margin-bottom:20px;display:block}
+.character-card p{font-size:15px;line-height:1.5;margin-bottom:18px;font-weight:500}
+.flaws-list{list-style:none;text-align:left;display:inline-block}
+.flaws-list li{padding:6px 0;font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px}
+.flaws-list li::before{content:'×';color:var(--ink);font-weight:700;font-size:14px;width:18px;height:18px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink);flex-shrink:0}
+.character-card.good .flaws-list li::before{content:'✓';background:var(--ink);color:var(--yellow);font-size:11px}
+.vs-circle{width:80px;height:80px;border-radius:50%;background:var(--ink);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Unbounded','Inter',sans-serif;font-size:28px;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--yellow);transform:rotate(-5deg)}
+
+.story{padding:120px 28px;background:var(--ink);color:var(--white);position:relative;overflow:hidden}
+.story::before{content:'';position:absolute;inset:0;opacity:.1;background-image:radial-gradient(circle,var(--yellow) 1px,transparent 1.5px);background-size:30px 30px}
+.story-zap{position:absolute;background:var(--yellow);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.7}
+.szap-1{top:8%;right:5%;width:90px;height:90px;animation:float1 7s ease-in-out infinite}
+.szap-2{bottom:12%;left:6%;width:60px;height:60px;animation:float2 6s ease-in-out infinite}
+.story-inner{max-width:1100px;margin:0 auto;position:relative;z-index:5;text-align:center}
+.story-eye{font-family:'Caveat',cursive;font-size:28px;color:var(--yellow);margin-bottom:20px;font-weight:700;display:block}
+.story h2{font-size:clamp(44px,7vw,82px);margin-bottom:32px;color:var(--white)}
+.story h2 .yel-stroke{-webkit-text-stroke:2px var(--yellow);-webkit-text-fill-color:transparent}
+.story h2 .yel-fill{color:var(--yellow)}
+.story-text{font-size:20px;max-width:680px;margin:0 auto 32px;color:var(--white);line-height:1.6}
+.story-text b{color:var(--yellow)}
+.story-row{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;max-width:900px;margin:50px auto 0}
+.fruit-chip{background:var(--dark);border:2px solid var(--white);padding:16px 8px;border-radius:20px;text-align:center;transition:all .25s}
+.fruit-chip:hover{background:var(--yellow);color:var(--ink);transform:translateY(-4px) rotate(-2deg)}
+.fruit-chip .emoji{font-size:32px;display:block;margin-bottom:6px}
+.fruit-chip .nm{font-family:'Unbounded','Inter',sans-serif;font-size:14px;letter-spacing:-.01em}
+
+.zeros-sec{padding:120px 28px;background:var(--white);position:relative;overflow:hidden}
+.zeros-head{text-align:center;max-width:900px;margin:0 auto 60px}
+.zeros-head h2{font-size:clamp(44px,7vw,84px);line-height:.95}
+.zeros-head h2 em{font-style:italic;color:var(--yellow-dark)}
+.zeros-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1200px;margin:0 auto}
+.zero-card{background:var(--white);border:3px solid var(--ink);border-radius:28px;padding:50px 30px 40px;position:relative;box-shadow:8px 8px 0 var(--ink);text-align:center;transition:all .25s}
+.zero-card:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:10px 14px 0 var(--ink);background:var(--yellow)}
+.zero-card .big-zero{font-family:'Unbounded','Inter',sans-serif;font-size:140px;line-height:.85;color:var(--ink);position:relative;display:inline-block}
+.zero-card .big-zero sup{font-size:32px;color:var(--ink);opacity:.6}
+.zero-card h3{font-size:24px;margin-bottom:8px;line-height:1.05;margin-top:10px}
+.zero-card p{font-size:14px;line-height:1.5;font-weight:500;max-width:240px;margin:0 auto}
+.zero-card .sticker-top{position:absolute;top:-14px;left:50%;transform:translateX(-50%) rotate(-3deg);background:var(--ink);color:var(--yellow);padding:6px 16px;border-radius:100px;font-family:'Caveat',cursive;font-size:18px;font-weight:700;border:2px solid var(--ink)}
+.zero-card:hover .sticker-top{background:var(--white);color:var(--ink)}
+
+.glp{padding:120px 28px;background:var(--yellow);position:relative;overflow:hidden;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink)}
+.glp::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,var(--ink) 2px,transparent 2.5px);background-size:40px 40px;opacity:.08}
+.glp-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.3fr;gap:60px;align-items:center;position:relative;z-index:5}
+.glp-visual{background:var(--ink);border:3px solid var(--ink);border-radius:28px;padding:48px;position:relative;box-shadow:10px 10px 0 var(--ink)}
+.glp-title{font-family:'Unbounded','Inter',sans-serif;font-size:clamp(70px,11vw,140px);color:var(--yellow);line-height:.85;letter-spacing:-.03em;margin-bottom:12px}
+.glp-sub{font-family:'Caveat',cursive;font-size:22px;color:var(--white);font-weight:700;margin-bottom:32px}
+.glp-steps{list-style:none}
+.glp-steps li{padding:14px 0;border-top:1px dashed rgba(255,255,255,.3);font-size:15px;color:var(--white);display:flex;gap:12px;align-items:flex-start}
+.glp-steps li:last-child{border-bottom:1px dashed rgba(255,255,255,.3)}
+.glp-steps li .step-num{background:var(--yellow);color:var(--ink);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Unbounded','Inter',sans-serif;font-size:13px;flex-shrink:0}
+.glp-steps li b{color:var(--yellow)}
+.glp-text .eyebrow-sticker{display:inline-block;background:var(--ink);color:var(--yellow);padding:8px 20px;border-radius:100px;font-family:'Caveat',cursive;font-size:20px;font-weight:700;margin-bottom:24px;transform:rotate(-2deg)}
+.glp-text h2{font-size:clamp(40px,6vw,72px);margin-bottom:24px;line-height:.95}
+.glp-text h2 em{font-style:italic;background:var(--ink);color:var(--yellow);padding:0 12px;display:inline-block;transform:rotate(-1deg)}
+.glp-text p{font-size:18px;line-height:1.6;margin-bottom:14px;font-weight:500}
+.glp-text p b{font-weight:700;background:var(--ink);color:var(--yellow);padding:1px 6px;border-radius:4px}
+.science-note{margin-top:24px;padding:16px 20px;background:var(--white);border:2px solid var(--ink);border-radius:16px;font-family:'Caveat',cursive;font-size:18px;font-weight:700;color:var(--ink)}
+
+.usage{padding:120px 28px;background:var(--white);position:relative}
+.usage-head{max-width:1100px;margin:0 auto 60px;text-align:center}
+.usage-head h2{font-size:clamp(44px,7vw,82px);margin-bottom:16px}
+.usage-head h2 .yel{background:var(--yellow);padding:0 14px;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);transform:rotate(-1deg);display:inline-block}
+.usage-head p{font-size:18px;color:var(--ink);font-weight:500;max-width:580px;margin:16px auto 0}
+.convert{max-width:1000px;margin:0 auto 50px;background:var(--ink);color:var(--white);border:3px solid var(--ink);border-radius:32px;padding:50px 40px;display:grid;grid-template-columns:1fr auto 1fr;gap:30px;align-items:center;text-align:center;box-shadow:10px 10px 0 var(--yellow);position:relative;overflow:hidden}
+.convert::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,var(--yellow) 1.5px,transparent 2px);background-size:30px 30px;opacity:.1}
+.convert-side{position:relative;z-index:2}
+.convert-side .qty{font-family:'Unbounded','Inter',sans-serif;font-size:clamp(50px,7vw,90px);line-height:1;color:var(--white)}
+.convert-side .qty.yel-q{color:var(--yellow)}
+.convert-side .of{font-family:'Caveat',cursive;font-size:22px;font-weight:700;color:var(--white);margin-top:8px}
+.convert-eq{font-family:'Unbounded','Inter',sans-serif;font-size:60px;color:var(--yellow);position:relative;z-index:2}
+.use-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1200px;margin:0 auto}
+.use-card{background:var(--soft);border:3px solid var(--ink);border-radius:24px;padding:30px;position:relative;box-shadow:6px 6px 0 var(--ink);transition:all .2s}
+.use-card:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);background:var(--yellow)}
+.use-emoji{font-size:30px;margin-bottom:14px;background:var(--yellow);width:60px;height:60px;border-radius:50%;border:2.5px solid var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 0 var(--ink)}
+.use-card:hover .use-emoji{background:var(--white)}
+.use-card h3{font-size:22px;margin-bottom:8px}
+.use-card p{font-size:14px;line-height:1.5;font-weight:500}
+.tip-bubble{margin:50px auto 0;max-width:700px;background:var(--yellow);border:2.5px solid var(--ink);border-radius:20px;padding:20px 26px;display:flex;gap:16px;align-items:center;box-shadow:5px 5px 0 var(--ink);position:relative}
+.tip-bubble::before{content:'';position:absolute;top:-14px;left:40px;width:24px;height:24px;background:var(--yellow);border-top:2.5px solid var(--ink);border-left:2.5px solid var(--ink);transform:rotate(45deg)}
+.tip-bubble .icon-circle{width:48px;height:48px;background:var(--ink);border-radius:50%;color:var(--yellow);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Unbounded','Inter',sans-serif;font-size:24px}
+.tip-bubble p{font-size:15px;font-weight:500;line-height:1.5;margin:0}
+.tip-bubble b{font-weight:700}
+
+.faq{padding:120px 28px;background:var(--white);position:relative}
+.faq-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1100px;margin:0 auto 50px;align-items:end}
+.faq-head h2{font-size:clamp(44px,7vw,80px)}
+.faq-head h2 em{font-style:italic;background:var(--yellow);padding:0 12px;border:3px solid var(--ink);transform:rotate(-1deg);display:inline-block;box-shadow:5px 5px 0 var(--ink)}
+.faq-head .talk-bubble{background:var(--ink);color:var(--white);padding:20px 24px;border-radius:20px;font-family:'Caveat',cursive;font-size:22px;font-weight:700;position:relative;max-width:380px;justify-self:end;transform:rotate(2deg)}
+.faq-head .talk-bubble::after{content:'';position:absolute;bottom:-16px;right:40px;width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:20px solid var(--ink)}
+.faq-list{max-width:1000px;margin:0 auto}
+.faq-item{background:var(--soft);border:2.5px solid var(--ink);border-radius:20px;margin-bottom:14px;overflow:hidden;transition:all .2s}
+.faq-item[open]{background:var(--yellow);box-shadow:6px 6px 0 var(--ink)}
+.faq-q{padding:22px 26px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;font-family:'Unbounded','Inter',sans-serif;font-size:20px;letter-spacing:-.005em}
+.faq-q::-webkit-details-marker{display:none}
+.faq-q .plus{width:36px;height:36px;background:var(--ink);color:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-family:'Unbounded','Inter',sans-serif;flex-shrink:0;transition:transform .3s}
+.faq-item[open] .plus{transform:rotate(45deg)}
+.faq-a{padding:0 26px 24px;font-size:16px;line-height:1.6;font-weight:500}
+.faq-a p{margin-bottom:12px}
+.faq-a p:last-child{margin-bottom:0}
+
+.cta{padding:120px 28px;background:var(--ink);color:var(--white);position:relative;overflow:hidden;text-align:center}
+.cta::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,var(--yellow) 1.5px,transparent 2px);background-size:50px 50px;opacity:.15}
+.cta-zap{position:absolute;background:var(--yellow);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E") center/contain no-repeat}
+.cz-1{top:10%;left:6%;width:80px;height:80px;animation:float1 5s ease-in-out infinite}
+.cz-2{top:18%;right:8%;width:50px;height:50px;animation:float2 6s ease-in-out infinite}
+.cz-3{bottom:15%;left:12%;width:60px;height:60px;animation:float3 7s ease-in-out infinite}
+.cz-4{bottom:8%;right:5%;width:70px;height:70px;animation:float1 5.5s ease-in-out infinite}
+.cta-inner{max-width:900px;margin:0 auto;position:relative;z-index:5}
+.cta-eye{display:inline-block;background:var(--yellow);color:var(--ink);padding:8px 22px;border-radius:100px;font-family:'Caveat',cursive;font-size:22px;font-weight:700;transform:rotate(-2deg);margin-bottom:24px;border:2.5px solid var(--ink)}
+.cta h2{font-size:clamp(54px,9vw,124px);line-height:.9;margin-bottom:24px}
+.cta h2 .yel-stroke{-webkit-text-stroke:2.5px var(--yellow);-webkit-text-fill-color:transparent}
+.cta h2 .yel{background:var(--yellow);color:var(--ink);padding:0 16px;display:inline-block;transform:rotate(-1.5deg);border:3px solid var(--yellow)}
+.cta p{font-size:20px;max-width:520px;margin:0 auto 40px;color:var(--white);font-weight:500;opacity:.85}
+.cta-buttons{display:inline-flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.btn-cta{background:var(--yellow);color:var(--ink);padding:20px 36px;font-size:18px;border:3px solid var(--white);box-shadow:6px 6px 0 var(--white)}
+.btn-cta:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--white)}
+
+footer{background:var(--white);padding:60px 28px 30px;border-top:3px solid var(--ink);position:relative;z-index:5}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
+.footer-brand h3{font-family:'Unbounded','Inter',sans-serif;font-size:32px;margin-bottom:14px}
+.footer-brand p{font-size:14px;max-width:32ch;line-height:1.5;color:var(--ink);font-weight:500}
+.footer-col h5{font-family:'Caveat',cursive;font-size:22px;font-weight:700;margin-bottom:14px;color:var(--ink)}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:8px}
+.footer-col a{color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.footer-col a:hover{color:var(--yellow-dark)}
+.footer-bot{max-width:1200px;margin:40px auto 0;padding-top:24px;border-top:2px dashed var(--ink);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-bot .copy{font-family:'Caveat',cursive;font-size:18px;font-weight:700}
+.socials{display:flex;gap:10px}
+.socials a{width:42px;height:42px;background:var(--yellow);border:2.5px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;box-shadow:3px 3px 0 var(--ink)}
+.socials a:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink);background:var(--ink);color:var(--yellow)}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media (max-width:1024px){
+  .hero-grid,.glp-grid{grid-template-columns:1fr;gap:50px}
+  .fable-grid{grid-template-columns:1fr;gap:24px}
+  .nav-links{display:none}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .faq-head{grid-template-columns:1fr;gap:24px}
+  .faq-head .talk-bubble{justify-self:start}
+  .zeros-3{grid-template-columns:1fr}
+  .use-cards{grid-template-columns:1fr 1fr}
+  .story-row{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:768px){
+  nav{padding:14px 16px}
+  .brand-mark{font-size:18px}
+  .brand-mark .zap{width:20px;height:20px}
+  .nav-cta{padding:8px 16px;font-size:12px}
+  .hero{padding:120px 20px 60px}
+  .hero-grid{gap:36px}
+  h1.mega{font-size:42px;line-height:1.1}
+  h1.mega .yel{padding:0 10px;border-width:2.5px;box-shadow:4px 4px 0 var(--ink)}
+  .hello-sticker{font-size:16px;padding:6px 14px}
+  .hero-lead{font-size:17px;margin-bottom:24px}
+  .hero-stage{max-width:340px;min-height:340px}
+  .orbit-tag{font-size:11px;padding:7px 12px}
+  .handwritten-note{font-size:18px}
+  .btn{padding:14px 22px;font-size:14px}
+  .hero-buttons{margin-bottom:24px}
+  .tag-mini{font-size:11px;padding:6px 12px}
+  .marquee-item{font-size:24px}
+  .versus{padding:60px 20px}
+  .versus-intro{margin-bottom:40px}
+  .versus-intro h2{font-size:36px}
+  .sticker-line{font-size:18px}
+  .fable-card{padding:28px 22px}
+  .fable-card h3{font-size:22px}
+  .fable-svg{width:100px;height:100px}
+  .story{padding:70px 20px}
+  .story h2{font-size:38px}
+  .story-text{font-size:17px}
+  .zeros-sec{padding:70px 20px}
+  .zeros-head h2{font-size:38px}
+  .zero-card{padding:42px 24px 32px}
+  .zero-card .big-zero{font-size:100px}
+  .glp{padding:70px 20px}
+  .glp-visual{padding:32px 24px}
+  .glp-title{font-size:64px}
+  .glp-text h2{font-size:36px}
+  .glp-text p{font-size:16px}
+  .usage{padding:70px 20px}
+  .usage-head h2{font-size:38px}
+  .convert{padding:36px 24px;grid-template-columns:1fr;gap:14px}
+  .convert-eq{transform:rotate(90deg);font-size:40px}
+  .convert-side .qty{font-size:50px}
+  .use-cards{grid-template-columns:1fr;gap:16px}
+  .faq{padding:70px 20px}
+  .faq-head h2{font-size:38px}
+  .faq-q{font-size:17px;padding:18px 22px}
+  .faq-q .plus{width:30px;height:30px;font-size:18px}
+  .cta{padding:70px 20px}
+  .cta h2{font-size:44px;line-height:1.1}
+  .cta-eye{font-size:18px}
+  .footer-grid{grid-template-columns:1fr;gap:30px}
+  .story-row{grid-template-columns:repeat(2,1fr);gap:10px}
+  .fruit-chip{padding:12px 6px}
+  .fruit-chip .emoji{font-size:26px}
+  .tip-bubble{padding:16px 20px;gap:12px}
+  .tip-bubble p{font-size:13px}
+  .tip-bubble .icon-circle{width:36px;height:36px;font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="brand-mark">ALU<span class="zap"></span>LOZZA</a>
+  <ul class="nav-links">
+    <li><a href="#story">La historia</a></li>
+    <li><a href="#molecule">La molécula</a></li>
+    <li><a href="#mechanism">El detalle GLP-1</a></li>
+    <li><a href="#usage">En tu día</a></li>
+  </ul>
+  <button class="nav-cta">¡Pruébalo!</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-zap zap-a"></div>
+  <div class="hero-zap zap-b"></div>
+  <div class="hero-zap zap-c"></div>
+  <div class="hero-zap zap-d"></div>
+  <div class="sparkle sp-a"></div>
+  <div class="sparkle sp-b"></div>
+  <div class="sparkle sp-c"></div>
+
+  <div class="hero-grid">
+    <div>
+      <div class="hello-sticker">una historia dulce, que sí te conviene</div>
+      <h1 class="mega">
+        Una <span class="yel">dulzura</span><br>
+        que la naturaleza<br>
+        ya tenía <span class="squiggle">lista</span>.
+      </h1>
+      <p class="hero-lead">Vive en el <b>higo</b>, las <b>pasas</b> y el <b>kiwi</b>. <span class="marker">La naturaleza la guardó por miles de años</span> — nosotros la pusimos pura en tu cocina. Sabe igual que el azúcar. Tu cuerpo la trata distinto. Así empieza Alu·Lozza.</p>
+      <div class="hero-buttons">
+        <a href="#story" class="btn btn-pri">Descubre la historia ⚡</a>
+        <a href="#" class="btn btn-sec">Quiero la mía</a>
+      </div>
+      <div class="hero-mini-quotes">
+        <span class="tag-mini"><span class="dot-y"></span> 0 calorías</span>
+        <span class="tag-mini"><span class="dot-y"></span> 0 glucosa</span>
+        <span class="tag-mini"><span class="dot-y"></span> Sabe a azúcar</span>
+        <span class="tag-mini"><span class="dot-y"></span> 100% pura</span>
+      </div>
+    </div>
+
+    <div class="hero-stage">
+      <div class="handwritten-note note-1">¡este es nuestro bebé!</div>
+      <div class="stage-bg"></div>
+      <div class="stage-product">
+        <img src="alulozza-clean.png" alt="Alu·Lozza 235g">
+      </div>
+      <span class="orbit-tag yel orbit-1">⚡ Estimula GLP-1</span>
+      <span class="orbit-tag dark orbit-2">Endulza limpio</span>
+      <span class="orbit-tag orbit-3">Keto · Vegan</span>
+      <span class="orbit-tag dark orbit-4">235g · Doypack</span>
+      <span class="orbit-tag yel orbit-5">Hornea como azúcar</span>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="marquee-item">PURA DULZURA</span>
+    <span class="marquee-item"><span class="star"></span></span>
+    <span class="marquee-item cream">DEL HIGO Y LAS PASAS</span>
+    <span class="marquee-item"><span class="star"></span></span>
+    <span class="marquee-item">PARA TU CAFÉ FELIZ</span>
+    <span class="marquee-item"><span class="star"></span></span>
+    <span class="marquee-item cream">100% ALULOSA</span>
+    <span class="marquee-item"><span class="star"></span></span>
+    <span class="marquee-item">CALMA TU GLUCOSA</span>
+    <span class="marquee-item"><span class="star"></span></span>
+    <span class="marquee-item cream">TU NUEVA ALIADA</span>
+    <span class="marquee-item"><span class="star"></span></span>
+    <span class="marquee-item">PURA DULZURA</span>
+    <span class="marquee-item"><span class="star"></span></span>
+    <span class="marquee-item cream">DEL HIGO Y LAS PASAS</span>
+    <span class="marquee-item"><span class="star"></span></span>
+    <span class="marquee-item">PARA TU CAFÉ FELIZ</span>
+    <span class="marquee-item"><span class="star"></span></span>
+    <span class="marquee-item cream">100% ALULOSA</span>
+    <span class="marquee-item"><span class="star"></span></span>
+  </div>
+</div>
+
+<section class="versus" id="story">
+  <div class="versus-intro reveal">
+    <span class="sticker-line">érase una vez...</span>
+    <h2>Una <span class="yel">molécula</span><br>que la naturaleza<br>tenía guardada.</h2>
+  </div>
+
+  <div class="fable-grid">
+    <div class="fable-card reveal">
+      <svg class="fable-svg" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+        <!-- Three fruits in a friendly arrangement -->
+        <!-- Fig (purple-ish, here as ink) -->
+        <circle cx="40" cy="80" r="22" fill="#0d0a0a"/>
+        <path d="M 40 58 L 36 50 L 44 50 Z" fill="#0d0a0a"/>
+        <circle cx="34" cy="78" r="3" fill="#f4c842"/>
+        <circle cx="42" cy="85" r="3" fill="#f4c842"/>
+        <circle cx="48" cy="76" r="3" fill="#f4c842"/>
+        <!-- Smile -->
+        <path d="M 32 85 Q 40 90 48 85" stroke="#f4c842" stroke-width="1.5" fill="none"/>
+        <!-- Kiwi -->
+        <circle cx="95" cy="55" r="20" fill="#0d0a0a"/>
+        <circle cx="95" cy="55" r="14" fill="#f4c842"/>
+        <circle cx="95" cy="55" r="2" fill="#0d0a0a"/>
+        <circle cx="90" cy="50" r="1.5" fill="#0d0a0a"/>
+        <circle cx="100" cy="50" r="1.5" fill="#0d0a0a"/>
+        <circle cx="90" cy="60" r="1.5" fill="#0d0a0a"/>
+        <circle cx="100" cy="60" r="1.5" fill="#0d0a0a"/>
+        <!-- Raisin -->
+        <ellipse cx="95" cy="105" rx="16" ry="13" fill="#0d0a0a"/>
+        <path d="M 86 100 Q 95 95 105 100" stroke="#f4c842" stroke-width="1" fill="none"/>
+        <path d="M 86 108 Q 95 113 105 108" stroke="#f4c842" stroke-width="1" fill="none"/>
+        <!-- Sparkles -->
+        <circle cx="20" cy="40" r="2" fill="#f4c842"/>
+        <circle cx="120" cy="30" r="2" fill="#f4c842"/>
+        <circle cx="125" cy="120" r="2" fill="#f4c842"/>
+      </svg>
+      <span class="fable-num">cap. 01</span>
+      <h3>Vivía en las frutas.</h3>
+      <p>En el <b>higo</b>, las <b>pasas</b>, el <b>kiwi</b>, el <b>trigo</b> y el <b>jarabe de maple</b>. La naturaleza guardó esta molécula por miles de años — presente, casi nunca vista.</p>
+    </div>
+
+    <div class="fable-card reveal" style="transition-delay:120ms">
+      <svg class="fable-svg" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+        <!-- Hero lightning bolt with magnifying glass -->
+        <path d="M 65 25 L 35 70 L 55 70 L 48 110 L 90 60 L 70 60 L 78 25 Z" fill="#0d0a0a" stroke="#0d0a0a" stroke-width="3" stroke-linejoin="round"/>
+        <!-- Eyes -->
+        <circle cx="50" cy="58" r="5" fill="#ffffff"/>
+        <circle cx="62" cy="58" r="5" fill="#ffffff"/>
+        <circle cx="51" cy="59" r="2.5" fill="#0d0a0a"/>
+        <circle cx="63" cy="59" r="2.5" fill="#0d0a0a"/>
+        <!-- Smile -->
+        <path d="M 48 68 Q 56 73 64 68" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- Sparkles around (the "purification" magic) -->
+        <g fill="#f4c842">
+          <path d="M 105 35 L 108 42 L 115 45 L 108 48 L 105 55 L 102 48 L 95 45 L 102 42 Z"/>
+          <path d="M 20 50 L 22 55 L 27 57 L 22 59 L 20 64 L 18 59 L 13 57 L 18 55 Z" transform="scale(.8)"/>
+          <path d="M 110 95 L 112 100 L 117 102 L 112 104 L 110 109 L 108 104 L 103 102 L 108 100 Z"/>
+        </g>
+        <circle cx="15" cy="105" r="3" fill="#f4c842"/>
+        <circle cx="125" cy="75" r="3" fill="#f4c842"/>
+        <circle cx="22" cy="22" r="2.5" fill="#f4c842"/>
+      </svg>
+      <span class="fable-num">cap. 02</span>
+      <h3>La extrajimos pura.</h3>
+      <p>Solo <b>alulosa</b>. Sin maltodextrina, sin eritritol, sin rellenos que abaratan. Cada gramo es la molécula tal como la diseñó la naturaleza, lista para ti.</p>
+    </div>
+
+    <div class="fable-card reveal" style="transition-delay:240ms">
+      <svg class="fable-svg" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+        <!-- Coffee cup with sparkles -->
+        <path d="M 35 55 L 105 55 L 100 110 Q 100 120 90 120 L 50 120 Q 40 120 40 110 Z" fill="#0d0a0a" stroke="#0d0a0a" stroke-width="3" stroke-linejoin="round"/>
+        <!-- Coffee surface -->
+        <ellipse cx="70" cy="58" rx="33" ry="6" fill="#f4c842"/>
+        <!-- Handle -->
+        <path d="M 105 65 Q 125 65 125 85 Q 125 100 105 100" stroke="#0d0a0a" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- Steam (sparkles) -->
+        <g fill="#0d0a0a">
+          <path d="M 55 35 Q 50 25 55 15 Q 60 25 55 35" />
+          <path d="M 70 30 Q 65 20 70 10 Q 75 20 70 30" />
+          <path d="M 85 35 Q 80 25 85 15 Q 90 25 85 35" />
+        </g>
+        <!-- Yellow sparkles -->
+        <g fill="#f4c842">
+          <circle cx="40" cy="30" r="2.5"/>
+          <circle cx="100" cy="25" r="2.5"/>
+          <circle cx="115" cy="40" r="2"/>
+          <circle cx="20" cy="50" r="2"/>
+        </g>
+        <!-- Smile on cup -->
+        <circle cx="60" cy="80" r="3" fill="#f4c842"/>
+        <circle cx="80" cy="80" r="3" fill="#f4c842"/>
+        <path d="M 58 92 Q 70 100 82 92" stroke="#f4c842" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span class="fable-num">cap. 03</span>
+      <h3>La pusimos en tu cocina.</h3>
+      <p>235 gramos de pura dulzura, lista para tu próximo café, tu próximo postre, tu próxima receta favorita. <b>Bienvenid@ a Alu·Lozza.</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="molecule">
+  <div class="story-zap szap-1"></div>
+  <div class="story-zap szap-2"></div>
+  <div class="story-inner">
+    <span class="story-eye reveal">el detalle que cambia todo...</span>
+    <h2 class="reveal">Sabe como <span class="yel-fill">azúcar</span>.<br>Tu cuerpo la <span class="yel-stroke">recibe distinto</span>.</h2>
+    <p class="story-text reveal">La alulosa comparte casi al 100% la estructura molecular del azúcar — por eso tu paladar la reconoce y tu repostería sale exactamente igual. La diferencia está en un solo átomo. Y ese átomo hace que tu cuerpo la <b>absorba pero no la metabolice</b>: pasa, te entrega el dulzor, sale. Sin convertirse en energía. Sin almacenarse. Sin alterar tu glucosa.</p>
+    <div class="story-row">
+      <div class="fruit-chip reveal" style="transition-delay:80ms"><span class="emoji">🍇</span><span class="nm">Pasas</span></div>
+      <div class="fruit-chip reveal" style="transition-delay:160ms"><span class="emoji">🥝</span><span class="nm">Kiwi</span></div>
+      <div class="fruit-chip reveal" style="transition-delay:240ms"><span class="emoji">🌾</span><span class="nm">Trigo</span></div>
+      <div class="fruit-chip reveal" style="transition-delay:320ms"><span class="emoji">🍯</span><span class="nm">Maple</span></div>
+      <div class="fruit-chip reveal" style="transition-delay:400ms"><span class="emoji">🌰</span><span class="nm">Higo</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="zeros-sec">
+  <div class="zeros-head reveal">
+    <h2>Tres regalos<br>en cada <em>cucharada</em>.</h2>
+  </div>
+  <div class="zeros-3">
+    <div class="zero-card reveal" style="transition-delay:80ms">
+      <span class="sticker-top">tu energía, intacta</span>
+      <div class="big-zero">0<sup>kcal</sup></div>
+      <h3>Energía que no se desploma</h3>
+      <p>Tu cuerpo no la metaboliza. Pasa sin convertirse en energía ni almacenarse — y tu mañana sigue siendo tu mañana.</p>
+    </div>
+    <div class="zero-card reveal" style="transition-delay:160ms">
+      <span class="sticker-top">tu plan, intacto</span>
+      <div class="big-zero">0<sup>g</sup></div>
+      <h3>Libertad para tus rutinas</h3>
+      <p>Sigue tu keto, low-carb o ayuno intermitente — sin asteriscos, sin renunciar al sabor que te gusta.</p>
+    </div>
+    <div class="zero-card reveal" style="transition-delay:240ms">
+      <span class="sticker-top">tu calma, intacta</span>
+      <div class="big-zero">0<sup>IG</sup></div>
+      <h3>Glucosa que se queda quieta</h3>
+      <p>Sin pico, sin caída, sin esa montaña rusa que arruina tu tarde. Tu energía pareja, tu mente clara.</p>
+    </div>
+  </div>
+</section>
+
+<section class="glp" id="mechanism">
+  <div class="glp-grid">
+    <div class="glp-visual reveal">
+      <div class="glp-title">GLP-1</div>
+      <div class="glp-sub">la hormona que ya tienes</div>
+      <ol class="glp-steps">
+        <li><span class="step-num">1</span><span><b>Tomas</b> alulosa en tu café, postre, lo que sea</span></li>
+        <li><span class="step-num">2</span><span>Tu <b>intestino</b> la reconoce — células sensoras activadas</span></li>
+        <li><span class="step-num">3</span><span><b>Libera GLP-1</b> + activa el nervio vago</span></li>
+        <li><span class="step-num">4</span><span>Tu cerebro recibe la señal: <b>"estoy satisfecho"</b></span></li>
+      </ol>
+    </div>
+    <div class="glp-text reveal" style="transition-delay:120ms">
+      <span class="eyebrow-sticker">hay un detalle más...</span>
+      <h2>Tu cuerpo ya tiene<br>una <em>aliada</em>.</h2>
+      <p>Se llama GLP-1. La produce tu intestino después de cada comida — regula tu apetito, modula tu glucosa, te ayuda a sentir <b>saciedad real</b>.</p>
+      <p>La alulosa <b>activa esa producción natural</b>. Lo que ya vivía en ti, ahora trabaja un poco mejor. Sin medicamentos. Sin química añadida. Solo comida que tu cuerpo entiende.</p>
+      <div class="science-note">📚 Respaldado por Nature Communications (2018) y Nutrients (2023)</div>
+    </div>
+  </div>
+</section>
+
+<section class="usage" id="usage">
+  <div class="usage-head reveal">
+    <h2>¿Cómo entra a <span class="yel">tu día</span>?</h2>
+    <p>Imagina endulzar tu café como siempre — solo que un poquito más, porque la alulosa tiene el 70% del dulzor del azúcar. Esta es toda la matemática que necesitas:</p>
+  </div>
+  <div class="convert reveal">
+    <div class="convert-side">
+      <div class="qty">1 cda</div>
+      <div class="of">de azúcar</div>
+    </div>
+    <div class="convert-eq">=</div>
+    <div class="convert-side">
+      <div class="qty yel-q">2 cdas</div>
+      <div class="of">de Alu·Lozza</div>
+    </div>
+  </div>
+  <div class="use-cards">
+    <div class="use-card reveal" style="transition-delay:80ms">
+      <div class="use-emoji">☕</div>
+      <h3>Para tu café de mañana</h3>
+      <p>Se disuelve perfecto en frío o caliente. Tu paladar la lee como azúcar, tu cuerpo la procesa distinto. Y notas la diferencia desde la primera taza.</p>
+    </div>
+    <div class="use-card reveal" style="transition-delay:160ms">
+      <div class="use-emoji">🥐</div>
+      <h3>Para hornear tus favoritos</h3>
+      <p>Caramaliza, dora, da textura. Tus recetas siguen siendo tus recetas — solo que tu cuerpo te lo agradece después.</p>
+    </div>
+    <div class="use-card reveal" style="transition-delay:240ms">
+      <div class="use-emoji">🍯</div>
+      <h3>Para todo lo que se te ocurra</h3>
+      <p>Salsas, glaseados, marinados, postres. Hace exactamente lo que hace el azúcar en cocina — y nadie nota.</p>
+    </div>
+  </div>
+  <div class="tip-bubble reveal">
+    <div class="icon-circle">!</div>
+    <p><b>Tip de la casa:</b> Hasta 40g al día funciona perfecto. Como cualquier comida, en exceso puede causar molestias. Empieza gradual y tu cuerpo se adapta en pocos días.</p>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="faq-head">
+    <h2 class="reveal">Lo que ya<br>te <em>preguntabas</em>.</h2>
+    <div class="talk-bubble reveal">¿Quedan dudas? Escríbenos al DM, contestamos sin guion 💛</div>
+  </div>
+  <div class="faq-list reveal">
+    <details class="faq-item">
+      <summary class="faq-q">¿De dónde sale la alulosa?<span class="plus">+</span></summary>
+      <div class="faq-a">
+        <p>De la naturaleza, literalmente. Existe naturalmente en frutas como el higo, las pasas, el kiwi, el trigo y el jarabe de maple. Técnicamente se llama <em>D-psicosa</em> y es química casi idéntica al azúcar de mesa — comparten el 90% de su estructura molecular.</p>
+        <p>La diferencia clave: tu cuerpo la absorbe, le da el dulzor a tu paladar, y la elimina sin convertirla en energía ni almacenarla. La que tomas hoy estaba en un higo hace miles de años.</p>
+      </div>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">¿Cuándo voy a notar la diferencia?<span class="plus">+</span></summary>
+      <div class="faq-a">
+        <p>Muchas personas notan algo desde el primer café: la energía más estable, sin ese bajón a media mañana. En unos días, los antojos suelen calmarse — porque tu glucosa deja de subir y bajar como antes.</p>
+        <p>La diferencia más profunda llega con la consistencia: tu cuerpo recordará lo que se siente endulzar sin consecuencias.</p>
+      </div>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">¿Cómo se compara con stevia o sucralosa?<span class="plus">+</span></summary>
+      <div class="faq-a">
+        <p>Es otra categoría. La alulosa es la única alternativa al azúcar que comparte casi al 100% su estructura molecular — por eso tu cerebro la "lee" como azúcar de verdad. Sin sabor metálico. Sin regusto químico.</p>
+        <p>Y se comporta exactamente como el azúcar en cocina: caramaliza, dora, da textura. Stevia y sucralosa no pueden hacer eso.</p>
+      </div>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">¿Cuánto puedo usar al día?<span class="plus">+</span></summary>
+      <div class="faq-a">
+        <p>Hasta 40g al día funciona perfecto — es una guía conservadora basada en los estudios disponibles. Como cualquier alimento consumido en exceso, dosis muy altas pueden causar malestar digestivo. Empieza gradual y tu cuerpo se adapta en pocos días.</p>
+      </div>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">¿Qué hace especial a Alu·Lozza?<span class="plus">+</span></summary>
+      <div class="faq-a">
+        <p>Una palabra: pureza. Somos <strong>100% alulosa pura</strong>. Cada uno de los 235g de tu doypack es alulosa — la molécula que vas a buscar. Sin maltodextrina, sin eritritol, sin rellenos.</p>
+        <p>Eso no es marketing, es lo que dice la etiqueta. Léela.</p>
+      </div>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">¿Quiénes están detrás?<span class="plus">+</span></summary>
+      <div class="faq-a">
+        <p>Somos <strong>REBOOT</strong> — una marca que existe para reinventar lo cotidiano. Alu·Lozza es nuestro primer producto: alulosa 100% pura, sin atajos. Nuestra idea es simple: lo dulce de siempre, pero pensado para tu cuerpo.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-zap cz-1"></div>
+  <div class="cta-zap cz-2"></div>
+  <div class="cta-zap cz-3"></div>
+  <div class="cta-zap cz-4"></div>
+  <div class="cta-inner">
+    <span class="cta-eye reveal">y así empieza tu historia...</span>
+    <h2 class="reveal">Tu próxima taza,<br>el inicio de algo<br><span class="yel">dulce</span>. Y tuyo.</h2>
+    <p class="reveal">Empieza con un doypack. 235 gramos de pura alulosa. Una decisión que tu cuerpo va a notar antes de que tu paladar lo registre.</p>
+    <div class="cta-buttons reveal">
+      <a href="#" class="btn btn-cta">¡Quiero el mío! ⚡</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>ALU·LOZZA</h3>
+      <p>Edulcorante 100% alulosa pura. Una marca de REBOOT — revolucionando el azúcar, una taza a la vez.</p>
+    </div>
+    <div class="footer-col">
+      <h5>El mundo</h5>
+      <ul>
+        <li><a href="#story">La historia</a></li>
+        <li><a href="#molecule">La molécula</a></li>
+        <li><a href="#mechanism">El detalle GLP-1</a></li>
+        <li><a href="#usage">En tu día</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>REBOOT</h5>
+      <ul>
+        <li><a href="#">Sobre REBOOT</a></li>
+        <li><a href="#">B2B / Distribución</a></li>
+        <li><a href="#">Prensa</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <ul>
+        <li><a href="#">Términos</a></li>
+        <li><a href="#">Privacidad</a></li>
+        <li><a href="#">Envíos</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <span class="copy">© 2026 ALU·LOZZA — hecho con amor por REBOOT</span>
+    <div class="socials">
+      <a href="#" aria-label="Instagram">IG</a>
+      <a href="#" aria-label="TikTok">TT</a>
+      <a href="#" aria-label="WhatsApp">WA</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
