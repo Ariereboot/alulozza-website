@@ -151,6 +151,31 @@ footer{background:var(--white);padding:50px 28px 28px;border-top:3px solid var(-
 .modal-note{background:var(--yellow);border:2.5px solid var(--ink);border-radius:18px;padding:16px 20px;font-size:14px;font-weight:500;line-height:1.5;box-shadow:4px 4px 0 var(--ink)}
 .modal-note b{font-family:'Caveat',cursive;font-size:18px;font-weight:700;display:block;margin-bottom:4px}
 
+.reboot-btn{margin-top:22px;background:var(--ink);color:var(--yellow);border:3px solid var(--ink);padding:14px 22px;border-radius:100px;font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:15px;cursor:pointer;box-shadow:5px 5px 0 var(--yellow);transition:all .15s;display:inline-flex;align-items:center;gap:8px;width:100%;justify-content:center}
+.reboot-btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--yellow)}
+.reboot-btn .bolt{width:16px;height:16px}
+.reboot-btn .arr{margin-left:4px;font-family:'Unbounded','Inter',sans-serif;font-weight:800}
+
+.reboot-badge{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--yellow);padding:6px 14px 6px 10px;border-radius:100px;font-family:'Unbounded','Inter',sans-serif;font-weight:700;font-size:11px;letter-spacing:.06em;margin-bottom:14px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--yellow)}
+.reboot-badge .bolt{width:12px;height:12px}
+
+.reboot-changes{margin-top:18px;background:var(--soft);border:2.5px solid var(--ink);border-radius:18px;padding:18px 20px;box-shadow:4px 4px 0 var(--ink)}
+.reboot-changes h4{font-family:'Caveat',cursive;font-size:20px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.reboot-changes h4 .bolt{width:14px;height:14px;display:inline-block}
+.reboot-changes ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.reboot-changes li{font-size:13.5px;line-height:1.45;font-weight:500;display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;padding:6px 0;border-bottom:1px dashed rgba(13,10,10,.15)}
+.reboot-changes li:last-child{border-bottom:none}
+.reboot-changes .from{color:var(--ink);opacity:.6;text-decoration:line-through;text-decoration-color:rgba(13,10,10,.3)}
+.reboot-changes .to{color:var(--ink);font-weight:600}
+.reboot-changes .arrow{font-family:'Unbounded','Inter',sans-serif;font-weight:800;color:var(--ink);font-size:12px;text-align:center}
+
+.reboot-back{margin-top:18px;background:transparent;color:var(--ink);border:2px solid var(--ink);padding:10px 18px;border-radius:100px;font-family:'Familjen Grotesk',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.reboot-back:hover{background:var(--ink);color:var(--white)}
+
+.modal-loading{padding:60px 30px;text-align:center}
+.modal-loading .spin-bolt{width:48px;height:48px;background:var(--yellow);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E") center/contain no-repeat;animation:spin-zap 1s linear infinite;margin:0 auto 18px;filter:drop-shadow(2px 2px 0 var(--ink))}
+.modal-loading p{font-family:'Caveat',cursive;font-size:22px;font-weight:700;color:var(--ink)}
+
 @media(max-width:1024px){
   .recipe-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .footer-grid{grid-template-columns:1fr 1fr}
@@ -360,12 +385,48 @@ function ingredientText(ing) {
   return measure ? `<b>${escapeHtml(measure)}</b> ${escapeHtml(item)}` : escapeHtml(item);
 }
 
-function renderModal(recipe) {
+const BOLT_SVG = `<svg class="bolt" viewBox="0 0 24 24" fill="none"><path d="M14 0L3 14h7l-2 10 11-14h-7l2-10z" fill="#fae62b" stroke="#0d0a0a" stroke-width="2" stroke-linejoin="round"/></svg>`;
+const BOLT_SVG_DARK = `<svg class="bolt" viewBox="0 0 24 24" fill="none"><path d="M14 0L3 14h7l-2 10 11-14h-7l2-10z" fill="#0d0a0a" stroke="#0d0a0a" stroke-width="2" stroke-linejoin="round"/></svg>`;
+
+function renderRebootChanges(changes) {
+  if (!Array.isArray(changes) || changes.length === 0) return '';
+  const items = changes.map(c => `
+    <li>
+      <span class="from">${escapeHtml(c.from || '—')}</span>
+      <span class="arrow">→</span>
+      <span class="to">${escapeHtml(c.to || '—')}</span>
+    </li>
+  `).join('');
+  return `
+    <div class="reboot-changes">
+      <h4>${BOLT_SVG_DARK} Cambios aplicados</h4>
+      <ul>${items}</ul>
+    </div>
+  `;
+}
+
+function renderModal(recipe, context) {
+  const ctx = context || {};
   const catObj = CATALOG ? CATALOG.categories.find(c => c.id === recipe.category) : null;
   const catName = catObj ? catObj.name : recipe.category;
   const ingredientsHtml = (recipe.ingredients || []).map(ing => `<li>${ingredientText(ing)}</li>`).join('');
   const instructionsHtml = (recipe.instructions || []).map(step => `<li>${escapeHtml(step)}</li>`).join('');
+  const isReboot = recipe.mode === 'reboot';
+  const badge = isReboot
+    ? `<div class="reboot-badge">${BOLT_SVG} REBOOT APPROVED</div>`
+    : '';
+  const noteHtml = recipe.alulozzaNote
+    ? `<div class="modal-note"><b>⚡ Nota Alu·Lozza</b>${escapeHtml(recipe.alulozzaNote)}</div>`
+    : '';
+  const changesHtml = isReboot ? renderRebootChanges(recipe.rebootChanges) : '';
+  let actionHtml = '';
+  if (isReboot && ctx.canRevert) {
+    actionHtml = `<button class="reboot-back" data-action="revert">← Versión clásica</button>`;
+  } else if (!isReboot && ctx.allowReboot !== false) {
+    actionHtml = `<button class="reboot-btn" data-action="reboot">${BOLT_SVG_DARK} Versión Reboot <span class="arr">→</span></button>`;
+  }
   return `
+    ${badge}
     <span class="modal-cat">${escapeHtml(catName)}</span>
     <h2>${escapeHtml(recipe.title)}</h2>
     <p class="modal-summary">${escapeHtml(recipe.summary)}</p>
@@ -382,13 +443,22 @@ function renderModal(recipe) {
       <h3>Cómo se hace</h3>
       <ol class="modal-ins">${instructionsHtml}</ol>
     </div>
-    ${recipe.alulozzaNote ? `<div class="modal-note"><b>⚡ Nota Alu·Lozza</b>${escapeHtml(recipe.alulozzaNote)}</div>` : ''}
+    ${noteHtml}
+    ${changesHtml}
+    ${actionHtml}
   `;
 }
 
+let modalCurrentRecipe = null;
+let modalOriginalRecipe = null;
+let modalContext = 'modal';
+
 function openModal(recipe) {
   const backdrop = document.getElementById('modalBackdrop');
-  document.getElementById('modalContent').innerHTML = renderModal(recipe);
+  modalCurrentRecipe = recipe;
+  modalOriginalRecipe = recipe;
+  modalContext = 'modal';
+  document.getElementById('modalContent').innerHTML = renderModal(recipe, { allowReboot: true });
   backdrop.classList.add('show');
   document.body.style.overflow = 'hidden';
 }
@@ -396,6 +466,43 @@ function openModal(recipe) {
 function closeModal() {
   document.getElementById('modalBackdrop').classList.remove('show');
   document.body.style.overflow = '';
+  modalCurrentRecipe = null;
+  modalOriginalRecipe = null;
+}
+
+async function transformToReboot(targetContainer, originalRecipe, opts) {
+  const isModalContainer = targetContainer.id === 'modalContent';
+  const isInline = !isModalContainer;
+  const loadingHtml = isInline
+    ? `<div class="ai-loading"><div class="spin"></div><p>Pasándola por Reboot — granos más nobles, grasas que el cuerpo entiende...</p></div>`
+    : `<div class="modal-loading"><div class="spin-bolt"></div><p>Pasándola por Reboot — granos más nobles, grasas buenas, cocina honesta...</p></div>`;
+  targetContainer.innerHTML = loadingHtml;
+  try {
+    const res = await fetch(RECIPE_API, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ mode: 'reboot', originalRecipe })
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) {
+      targetContainer.innerHTML = `<div class="ai-error"><b>No pude transformar</b>${escapeHtml(data.error || 'Probá de nuevo en un segundo.')}</div>`;
+      return null;
+    }
+    const rendered = renderModal(data, { canRevert: true });
+    if (isInline) {
+      targetContainer.innerHTML = `
+        <div style="background:var(--white);border:3px solid var(--ink);border-radius:24px;padding:32px;box-shadow:8px 8px 0 var(--yellow);text-align:left">
+          ${rendered}
+        </div>
+      `;
+    } else {
+      targetContainer.innerHTML = rendered;
+    }
+    return data;
+  } catch (err) {
+    targetContainer.innerHTML = `<div class="ai-error"><b>Sin conexión</b>No pude transformar la receta. Revisá tu internet.</div>`;
+    return null;
+  }
 }
 
 document.getElementById('modalClose').addEventListener('click', closeModal);
@@ -404,6 +511,20 @@ document.getElementById('modalBackdrop').addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
+});
+
+document.getElementById('modalContent').addEventListener('click', async e => {
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  const action = btn.dataset.action;
+  const container = document.getElementById('modalContent');
+  if (action === 'reboot' && modalCurrentRecipe) {
+    const transformed = await transformToReboot(container, modalOriginalRecipe);
+    if (transformed) modalCurrentRecipe = transformed;
+  } else if (action === 'revert' && modalOriginalRecipe) {
+    modalCurrentRecipe = modalOriginalRecipe;
+    container.innerHTML = renderModal(modalOriginalRecipe, { allowReboot: true });
+  }
 });
 
 document.getElementById('recipeGrid').addEventListener('click', e => {
@@ -427,6 +548,9 @@ async function loadCatalog() {
   }
 }
 
+let aiCurrentRecipe = null;
+let aiOriginalRecipe = null;
+
 document.getElementById('searchForm').addEventListener('submit', async e => {
   e.preventDefault();
   const input = document.getElementById('searchInput');
@@ -447,13 +571,33 @@ document.getElementById('searchForm').addEventListener('submit', async e => {
       wrap.innerHTML = `<div class="ai-error"><b>Hubo un detalle</b>${escapeHtml(data.error || 'Algo no salió bien. Probá reformular.')}</div>`;
       return;
     }
+    aiOriginalRecipe = data;
+    aiCurrentRecipe = data;
     wrap.innerHTML = `
-      <div style="background:var(--white);border:3px solid var(--ink);border-radius:24px;padding:32px;box-shadow:8px 8px 0 var(--yellow);text-align:left">
-        ${renderModal(data)}
+      <div id="aiResultBox" style="background:var(--white);border:3px solid var(--ink);border-radius:24px;padding:32px;box-shadow:8px 8px 0 var(--yellow);text-align:left">
+        ${renderModal(data, { allowReboot: true })}
       </div>
     `;
   } catch (err) {
     wrap.innerHTML = `<div class="ai-error"><b>Sin conexión</b>No pude conectar con el recetario. Revisá tu internet y probá de nuevo.</div>`;
+  }
+});
+
+document.getElementById('aiResultWrap').addEventListener('click', async e => {
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  const action = btn.dataset.action;
+  const wrap = document.getElementById('aiResultWrap');
+  if (action === 'reboot' && aiOriginalRecipe) {
+    const transformed = await transformToReboot(wrap, aiOriginalRecipe);
+    if (transformed) aiCurrentRecipe = transformed;
+  } else if (action === 'revert' && aiOriginalRecipe) {
+    aiCurrentRecipe = aiOriginalRecipe;
+    wrap.innerHTML = `
+      <div id="aiResultBox" style="background:var(--white);border:3px solid var(--ink);border-radius:24px;padding:32px;box-shadow:8px 8px 0 var(--yellow);text-align:left">
+        ${renderModal(aiOriginalRecipe, { allowReboot: true })}
+      </div>
+    `;
   }
 });
 
