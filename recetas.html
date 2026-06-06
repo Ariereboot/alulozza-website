@@ -29,7 +29,8 @@
   --shadow:rgba(13,10,10,.15);
 }
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--white);color:var(--ink);font-family:'Familjen Grotesk',sans-serif;font-size:17px;line-height:1.55;overflow-x:hidden}
+body{background:var(--white);color:var(--ink);font-family:'Familjen Grotesk',sans-serif;font-size:17px;line-height:1.55;overflow-x:hidden;position:relative}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cpath d='M44 32 L 28 80 L 42 80 L 36 116 L 64 60 L 50 60 L 56 32 Z' fill='%23fae62b' transform='rotate(-14 44 70)'/%3E%3Cpath d='M176 148 L 160 196 L 174 196 L 168 232 L 196 176 L 182 176 L 188 148 Z' fill='%23fae62b' transform='rotate(8 176 186)'/%3E%3Ccircle cx='204' cy='56' r='3' fill='%23fae62b'/%3E%3Ccircle cx='30' cy='190' r='2.5' fill='%23fae62b'/%3E%3Ccircle cx='130' cy='110' r='2' fill='%230d0a0a' opacity='.5'/%3E%3C/svg%3E");background-size:280px 280px}
 h1,h2,h3{font-family:'Unbounded','Inter',sans-serif;font-weight:800;letter-spacing:-.025em;line-height:1}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:2px solid var(--ink)}
@@ -91,19 +92,28 @@ h1.mega .yel{display:inline-block;background:var(--yellow);color:var(--ink);padd
 .grid-head h2{font-size:clamp(28px,4vw,42px)}
 .grid-head h2 em{font-style:italic;background:var(--yellow);padding:0 8px;border:2px solid var(--ink);transform:rotate(-1deg);display:inline-block}
 .grid-head .count{font-family:'Caveat',cursive;font-size:20px;font-weight:700;color:var(--ink);opacity:.7}
-.recipe-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;max-width:1200px;margin:0 auto}
-.recipe-card{background:var(--soft);border:3px solid var(--ink);border-radius:22px;padding:24px 22px 22px;box-shadow:6px 6px 0 var(--ink);cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
-.recipe-card:hover{transform:translate(-3px,-4px) rotate(-.5deg);box-shadow:9px 10px 0 var(--ink);background:var(--yellow)}
-.recipe-card:nth-child(2n):hover{transform:translate(-3px,-4px) rotate(.5deg)}
-.card-icon{width:60px;height:60px;background:var(--yellow);border-radius:50%;border:2.5px solid var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 0 var(--ink);margin-bottom:14px}
-.recipe-card:hover .card-icon{background:var(--white)}
-.card-icon svg{width:36px;height:36px;display:block}
-.card-num{position:absolute;top:10px;right:14px;font-family:'Caveat',cursive;font-weight:700;font-size:18px;color:var(--ink);opacity:.4}
-.recipe-card h3{font-family:'Unbounded','Inter',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.01em;line-height:1.15;margin-bottom:8px}
-.card-summary{font-size:14px;line-height:1.45;font-weight:500;margin-bottom:14px;color:var(--ink);opacity:.85}
-.card-meta{display:flex;gap:6px;flex-wrap:wrap}
+.recipe-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;max-width:1200px;margin:0 auto}
+.recipe-card{background:var(--white);border:3px solid var(--ink);border-radius:24px;padding:18px 18px 20px;box-shadow:7px 7px 0 var(--ink);transition:transform .2s,box-shadow .2s;position:relative}
+.recipe-card:hover{transform:translate(-3px,-4px);box-shadow:10px 11px 0 var(--ink)}
+.recipe-sticker{position:relative;width:100%;aspect-ratio:1.3;background:var(--yellow);border:3px solid var(--ink);border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;overflow:hidden;box-shadow:inset 0 0 0 6px rgba(255,255,255,.35);cursor:pointer}
+.recipe-sticker .sticker-icon{width:60%;height:60%;display:flex;align-items:center;justify-content:center;filter:drop-shadow(3px 3px 0 var(--ink))}
+.recipe-sticker .sticker-icon svg{width:100%;height:100%}
+.cat-pill-sticker{position:absolute;top:12px;left:12px;background:var(--ink);color:var(--white);padding:5px 11px;border-radius:100px;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;z-index:2}
+.card-num-corner{position:absolute;bottom:10px;right:14px;font-family:'Caveat',cursive;font-weight:700;font-size:20px;color:var(--ink);opacity:.55;z-index:2}
+.sello-reboot{position:absolute;top:-14px;right:-14px;width:88px;height:88px;border-radius:50%;background:var(--ink);color:var(--yellow);border:4px solid var(--yellow);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Unbounded','Inter',sans-serif;font-weight:800;font-size:9.5px;line-height:1.05;text-align:center;transform:rotate(-12deg);box-shadow:4px 4px 0 var(--ink);cursor:pointer;z-index:5;transition:transform .2s;letter-spacing:.4px;padding:6px}
+.sello-reboot::before{content:'';position:absolute;inset:5px;border:2px dashed var(--yellow);border-radius:50%;opacity:.55;pointer-events:none}
+.sello-reboot:hover{transform:rotate(0deg) scale(1.08)}
+.sello-reboot .zap-mini{display:block;font-size:14px;margin-bottom:1px;line-height:1}
+.recipe-card h3{font-family:'Unbounded','Inter',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.015em;line-height:1.12;margin-bottom:8px;padding-right:6px}
+.card-summary{font-size:13.5px;line-height:1.45;font-weight:500;margin-bottom:14px;color:var(--ink);opacity:.82}
+.card-meta{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
 .meta-pill{display:inline-flex;align-items:center;gap:3px;background:var(--ink);color:var(--white);padding:4px 10px;border-radius:100px;font-size:11px;font-weight:600}
-.recipe-card:hover .meta-pill{background:var(--white);color:var(--ink)}
+.recipe-actions{display:flex;gap:8px;align-items:center}
+.btn-cook{flex:1;background:var(--ink);color:var(--white);padding:11px 14px;border-radius:100px;font-weight:700;font-size:13px;border:none;cursor:pointer;text-align:center;transition:background .15s;font-family:'Familjen Grotesk',sans-serif}
+.btn-cook:hover{background:#222}
+.btn-wa{background:#25D366;color:#fff;padding:9px 11px;border-radius:100px;border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform .15s;width:42px;height:42px;flex-shrink:0}
+.btn-wa:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn-wa svg{width:18px;height:18px;display:block}
 .empty-state{text-align:center;padding:40px;font-family:'Caveat',cursive;font-size:24px;font-weight:700;opacity:.6;grid-column:1/-1}
 
 .cta-bottom{padding:80px 28px;background:var(--ink);color:var(--white);text-align:center;position:relative;overflow:hidden}
@@ -133,8 +143,20 @@ footer{background:var(--white);padding:50px 28px 28px;border-top:3px solid var(-
 .modal-backdrop.show{display:flex}
 .modal{background:var(--white);border:3px solid var(--ink);border-radius:28px;max-width:760px;width:100%;padding:40px 36px;box-shadow:12px 12px 0 var(--yellow);position:relative;animation:popin .3s ease-out}
 @keyframes popin{from{transform:translateY(30px) scale(.96);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-.modal-close{position:absolute;top:18px;right:18px;width:42px;height:42px;background:var(--ink);color:var(--yellow);border:none;border-radius:50%;font-family:'Unbounded','Inter',sans-serif;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s}
+.modal-close{position:absolute;top:18px;right:18px;width:42px;height:42px;background:var(--ink);color:var(--yellow);border:none;border-radius:50%;font-family:'Unbounded','Inter',sans-serif;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s;z-index:10}
 .modal-close:hover{transform:rotate(90deg)}
+.modal-sticker-big{width:100%;aspect-ratio:2.4;background:var(--yellow);border:3px solid var(--ink);border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;box-shadow:inset 0 0 0 8px rgba(255,255,255,.35);position:relative;overflow:hidden}
+.modal-sticker-big .sticker-icon{width:46%;height:78%;display:flex;align-items:center;justify-content:center;filter:drop-shadow(4px 4px 0 var(--ink))}
+.modal-sticker-big .sticker-icon svg{width:100%;height:100%}
+.modal-share-row{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:100px;border:2.5px solid var(--ink);font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;font-family:'Familjen Grotesk',sans-serif;transition:transform .15s}
+.share-btn:hover{transform:translate(-1px,-1px)}
+.share-btn.wa{background:#25D366;color:#fff;box-shadow:3px 3px 0 var(--ink)}
+.share-btn.wa:hover{box-shadow:4px 4px 0 var(--ink)}
+.share-btn.copy{background:var(--white);color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.share-btn.copy:hover{box-shadow:4px 4px 0 var(--ink)}
+.share-btn svg{width:14px;height:14px;display:block}
+.share-btn.copied{background:var(--yellow);color:var(--ink)}
 .modal-cat{display:inline-block;background:var(--yellow);color:var(--ink);padding:4px 14px;border-radius:100px;font-family:'Caveat',cursive;font-size:18px;font-weight:700;margin-bottom:14px;border:2px solid var(--ink)}
 .modal h2{font-family:'Unbounded','Inter',sans-serif;font-weight:800;font-size:32px;letter-spacing:-.025em;line-height:1.05;margin-bottom:10px}
 .modal-summary{font-size:16px;line-height:1.5;font-weight:500;margin-bottom:20px;opacity:.85}
@@ -332,16 +354,30 @@ function escapeHtml(str) {
 function renderCard(recipe, idx) {
   const icon = ICONS[recipe.category] || ICONS.horneados;
   const num = String(idx + 1).padStart(2, '0');
+  const catObj = CATALOG ? CATALOG.categories.find(c => c.id === recipe.category) : null;
+  const catName = catObj ? catObj.name : recipe.category;
   return `
     <article class="recipe-card" data-id="${escapeHtml(recipe.id)}" data-cat="${escapeHtml(recipe.category)}">
-      <span class="card-num">${num}</span>
-      <div class="card-icon">${icon}</div>
+      <button class="sello-reboot" data-action="reboot" data-id="${escapeHtml(recipe.id)}" title="Versión Reboot — receta con harinas nobles, sin aceites de semilla">
+        <span class="zap-mini">⚡</span>VERSIÓN<br>REBOOT
+      </button>
+      <div class="recipe-sticker" data-action="open" data-id="${escapeHtml(recipe.id)}">
+        <span class="cat-pill-sticker">${escapeHtml(catName)}</span>
+        <span class="card-num-corner">${num}</span>
+        <div class="sticker-icon">${icon}</div>
+      </div>
       <h3>${escapeHtml(recipe.title)}</h3>
       <p class="card-summary">${escapeHtml(recipe.summary)}</p>
       <div class="card-meta">
         <span class="meta-pill">${escapeHtml(recipe.time)}</span>
         <span class="meta-pill">${escapeHtml(recipe.difficulty)}</span>
         <span class="meta-pill">${escapeHtml(String(recipe.servings))} porc.</span>
+      </div>
+      <div class="recipe-actions">
+        <button class="btn-cook" data-action="open" data-id="${escapeHtml(recipe.id)}">Ver receta</button>
+        <button class="btn-wa" data-action="share-wa" data-id="${escapeHtml(recipe.id)}" title="Compartir por WhatsApp" aria-label="Compartir por WhatsApp">
+          <svg viewBox="0 0 24 24" fill="white"><path d="M17.5 14.4l-2.6-1.3c-.4-.2-.8-.1-1.1.2l-1.1 1.1c-1.4-.7-2.6-1.9-3.3-3.3l1.1-1.1c.3-.3.4-.7.2-1.1L9.4 6.3c-.2-.5-.7-.7-1.2-.5l-1.5.5c-.5.2-.8.7-.7 1.2.9 4.6 4.6 8.3 9.2 9.2.5.1 1-.2 1.2-.7l.5-1.5c.2-.5 0-1-.4-1.1zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5C8.3 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        </button>
       </div>
     </article>
   `;
@@ -425,11 +461,23 @@ function renderModal(recipe, context) {
   } else if (!isReboot && ctx.allowReboot !== false) {
     actionHtml = `<button class="reboot-btn" data-action="reboot">${BOLT_SVG_DARK} Versión Reboot <span class="arr">→</span></button>`;
   }
+  const icon = ICONS[recipe.category] || ICONS.horneados;
+  const shareRow = `
+    <div class="modal-share-row">
+      <a href="#" class="share-btn wa" data-action="share-wa" data-id="${escapeHtml(recipe.id)}">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M17.5 14.4l-2.6-1.3c-.4-.2-.8-.1-1.1.2l-1.1 1.1c-1.4-.7-2.6-1.9-3.3-3.3l1.1-1.1c.3-.3.4-.7.2-1.1L9.4 6.3c-.2-.5-.7-.7-1.2-.5l-1.5.5c-.5.2-.8.7-.7 1.2.9 4.6 4.6 8.3 9.2 9.2.5.1 1-.2 1.2-.7l.5-1.5c.2-.5 0-1-.4-1.1zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5C8.3 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        WhatsApp
+      </a>
+      <button class="share-btn copy" data-action="copy-recipe" data-id="${escapeHtml(recipe.id)}">📋 Copiar</button>
+    </div>
+  `;
   return `
     ${badge}
     <span class="modal-cat">${escapeHtml(catName)}</span>
     <h2>${escapeHtml(recipe.title)}</h2>
     <p class="modal-summary">${escapeHtml(recipe.summary)}</p>
+    ${shareRow}
+    <div class="modal-sticker-big"><div class="sticker-icon">${icon}</div></div>
     <div class="modal-meta">
       <span class="mp">${escapeHtml(recipe.time)}</span>
       <span class="mp">${escapeHtml(recipe.difficulty)}</span>
@@ -513,9 +561,55 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
 });
 
+function buildRecipeText(recipe) {
+  const lines = [];
+  lines.push(`⚡ ${recipe.title}`);
+  if (recipe.summary) lines.push(recipe.summary);
+  lines.push('');
+  lines.push(`⏱ ${recipe.time} · ${recipe.difficulty} · ${recipe.servings} porc.`);
+  lines.push('');
+  lines.push('INGREDIENTES');
+  (recipe.ingredients || []).forEach(ing => {
+    const measure = [ing.qty, ing.unit].filter(Boolean).join(' ');
+    lines.push('• ' + (measure ? `${measure} ${ing.item}` : ing.item));
+  });
+  lines.push('');
+  lines.push('CÓMO SE HACE');
+  (recipe.instructions || []).forEach((s, i) => lines.push(`${i + 1}. ${s}`));
+  if (recipe.alulozzaNote) {
+    lines.push('');
+    lines.push('⚡ Nota Alu·Lozza: ' + recipe.alulozzaNote);
+  }
+  lines.push('');
+  lines.push('Receta hecha con Alu·Lozza · alulozza.com/recetas');
+  return lines.join('\n');
+}
+
+function shareWhatsApp(recipe) {
+  const text = buildRecipeText(recipe);
+  const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank', 'noopener');
+}
+
+async function copyRecipe(recipe, btn) {
+  const text = buildRecipeText(recipe);
+  try {
+    await navigator.clipboard.writeText(text);
+    if (btn) {
+      const original = btn.innerHTML;
+      btn.classList.add('copied');
+      btn.innerHTML = '✓ Copiado';
+      setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = original; }, 1800);
+    }
+  } catch (err) {
+    alert('No pude copiar. Tu navegador bloqueó el portapapeles.');
+  }
+}
+
 document.getElementById('modalContent').addEventListener('click', async e => {
   const btn = e.target.closest('[data-action]');
   if (!btn) return;
+  e.preventDefault();
   const action = btn.dataset.action;
   const container = document.getElementById('modalContent');
   if (action === 'reboot' && modalCurrentRecipe) {
@@ -524,15 +618,35 @@ document.getElementById('modalContent').addEventListener('click', async e => {
   } else if (action === 'revert' && modalOriginalRecipe) {
     modalCurrentRecipe = modalOriginalRecipe;
     container.innerHTML = renderModal(modalOriginalRecipe, { allowReboot: true });
+  } else if (action === 'share-wa' && modalCurrentRecipe) {
+    shareWhatsApp(modalCurrentRecipe);
+  } else if (action === 'copy-recipe' && modalCurrentRecipe) {
+    copyRecipe(modalCurrentRecipe, btn);
   }
 });
 
-document.getElementById('recipeGrid').addEventListener('click', e => {
+document.getElementById('recipeGrid').addEventListener('click', async e => {
+  const actionEl = e.target.closest('[data-action]');
   const card = e.target.closest('.recipe-card');
   if (!card) return;
-  const id = card.dataset.id;
+  const id = (actionEl && actionEl.dataset.id) || card.dataset.id;
   const recipe = CATALOG.recipes.find(r => r.id === id);
-  if (recipe) openModal(recipe);
+  if (!recipe) return;
+  const action = actionEl && actionEl.dataset.action;
+  if (action === 'share-wa') {
+    e.stopPropagation();
+    shareWhatsApp(recipe);
+    return;
+  }
+  if (action === 'reboot') {
+    e.stopPropagation();
+    openModal(recipe);
+    const container = document.getElementById('modalContent');
+    const transformed = await transformToReboot(container, recipe);
+    if (transformed) modalCurrentRecipe = transformed;
+    return;
+  }
+  openModal(recipe);
 });
 
 async function loadCatalog() {
