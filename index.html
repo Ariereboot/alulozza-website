@@ -3,7 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ALU·LOZZA — Una dulzura que sí te conviene ⚡</title><meta name="description" content="Edulcorante 100% alulosa pura. Sabe a azúcar, tu cuerpo la trata distinto. 0 calorías, 0 índice glucémico. De REBOOT."><meta name="theme-color" content="#fae62b"><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z' fill='%23fae62b' stroke='%230d0a0a' stroke-width='2.5' stroke-linejoin='round'/%3E%3C/svg%3E"><meta property="og:type" content="website"><meta property="og:url" content="https://alulozza.com"><meta property="og:title" content="ALU·LOZZA — Una dulzura que sí te conviene"><meta property="og:description" content="Edulcorante 100% alulosa pura. Sabe a azúcar, tu cuerpo la trata distinto."><meta property="og:image" content="https://alulozza.com/alulozza-clean.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://alulozza.com/alulozza-clean.png">
+<title>ALU·LOZZA — Una dulzura que sí te conviene ⚡</title>
+<meta name="description" content="Edulcorante 100% alulosa pura. Sabe a azúcar, tu cuerpo la trata distinto. 0 calorías, 0 índice glucémico. De REBOOT.">
+<meta name="theme-color" content="#fae62b">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z' fill='%23fae62b' stroke='%230d0a0a' stroke-width='2.5' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alulozza.com">
+<meta property="og:title" content="ALU·LOZZA — Una dulzura que sí te conviene">
+<meta property="og:description" content="Edulcorante 100% alulosa pura. Sabe a azúcar, tu cuerpo la trata distinto.">
+<meta property="og:image" content="https://alulozza.com/alulozza-clean.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://alulozza.com/alulozza-clean.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Caveat:wght@500;700&family=Unbounded:wght@500;700;800&family=Inter:wght@800;900&display=swap" rel="stylesheet">
@@ -33,6 +43,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 28px;display:fl
 .nav-links{display:flex;gap:8px;list-style:none}
 .nav-links a{color:var(--ink);text-decoration:none;padding:8px 14px;border-radius:100px;font-weight:500;font-size:14px;transition:all .2s}
 .nav-links a:hover{background:var(--ink);color:var(--white)}
+.nav-links a.nav-recetario{background:var(--yellow);color:var(--ink);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);font-weight:700;padding:7px 14px;display:inline-flex;align-items:center;gap:5px}
+.nav-links a.nav-recetario:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink);background:var(--yellow);color:var(--ink)}
 .nav-cta{background:var(--yellow);color:var(--ink);border:2px solid var(--ink);padding:10px 22px;border-radius:100px;font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:14px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:all .15s}
 .nav-cta:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
 
@@ -336,6 +348,7 @@ footer{background:var(--white);padding:60px 28px 30px;border-top:3px solid var(-
     <li><a href="#molecule">La molécula</a></li>
     <li><a href="#mechanism">El detalle GLP-1</a></li>
     <li><a href="#usage">En tu día</a></li>
+    <li><a href="recetas.html" class="nav-recetario">Recetario ⚡</a></li>
   </ul>
   <button class="nav-cta">¡Pruébalo!</button>
 </nav>
@@ -610,6 +623,56 @@ footer{background:var(--white);padding:60px 28px 30px;border-top:3px solid var(-
   <div class="tip-bubble reveal">
     <div class="icon-circle">!</div>
     <p><b>Tip de la casa:</b> Hasta 40g al día funciona perfecto. Como cualquier comida, en exceso puede causar molestias. Empieza gradual y tu cuerpo se adapta en pocos días.</p>
+  </div>
+</section>
+
+<section class="recetario-teaser reveal" id="recetario" style="padding:110px 28px;background:var(--soft);position:relative;overflow:hidden;border-top:3px dashed var(--ink);border-bottom:3px dashed var(--ink)">
+  <div style="position:absolute;top:14%;left:6%;width:44px;height:44px;background:var(--yellow);-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E&quot;) center/contain no-repeat;filter:drop-shadow(2px 2px 0 var(--ink));animation:float1 6s ease-in-out infinite;pointer-events:none"></div>
+  <div style="position:absolute;bottom:20%;right:8%;width:38px;height:38px;background:var(--yellow);-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 0L3 14h7l-2 10 11-14h-7l2-10z'/%3E%3C/svg%3E&quot;) center/contain no-repeat;filter:drop-shadow(2px 2px 0 var(--ink));animation:float2 7s ease-in-out infinite;pointer-events:none"></div>
+  <div style="max-width:1100px;margin:0 auto;text-align:center;position:relative;z-index:2">
+    <span class="sticker-line">tu cocina, ahora con Alu·Lozza</span>
+    <h2 style="font-family:'Unbounded','Inter',sans-serif;font-weight:800;font-size:clamp(40px,7vw,82px);line-height:1;letter-spacing:-.025em;margin-bottom:18px">El <em style="font-style:italic;background:var(--yellow);padding:0 14px;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);display:inline-block;transform:rotate(-1.5deg)">recetario</em>.</h2>
+    <p style="font-size:19px;max-width:580px;margin:18px auto 36px;font-weight:500;line-height:1.5">30 recetas pre-cargadas y un buscador que convierte cualquier receta a Alu·Lozza con la dosis justa. <b>Pídela y aparece.</b></p>
+    <a href="recetas.html" style="display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--yellow);padding:20px 36px;border:3px solid var(--ink);border-radius:100px;font-weight:700;font-size:18px;text-decoration:none;box-shadow:7px 7px 0 var(--yellow);transition:all .15s;font-family:'Familjen Grotesk',sans-serif" onmouseover="this.style.transform='translate(-2px,-2px)';this.style.boxShadow='9px 9px 0 var(--yellow)'" onmouseout="this.style.transform='';this.style.boxShadow='7px 7px 0 var(--yellow)'">Entrar al recetario <span style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:20px">→</span></a>
+    <p style="margin-top:22px;font-family:'Caveat',cursive;font-size:20px;font-weight:700;opacity:.7">brownies, café helado, glaseados, lo que se te ocurra</p>
+  </div>
+</section>
+
+<section class="puntos-venta reveal" id="venta" style="padding:120px 28px;background:var(--white);position:relative;overflow:hidden">
+  <div style="max-width:1100px;margin:0 auto;text-align:center;margin-bottom:50px">
+    <span class="sticker-line">ya estamos en Panamá</span>
+    <h2 style="font-family:'Unbounded','Inter',sans-serif;font-weight:800;font-size:clamp(40px,7vw,82px);line-height:1;letter-spacing:-.025em;margin-bottom:14px">¿Dónde nos <em style="font-style:italic;background:var(--yellow);padding:0 12px;border:3px solid var(--ink);transform:rotate(-1deg);display:inline-block;box-shadow:5px 5px 0 var(--ink)">encuentras</em>?</h2>
+    <p style="font-size:19px;max-width:560px;margin:20px auto 0;font-weight:500;line-height:1.5">En las góndolas de Panamá. En tu cocina con un click. <b>Tú eliges.</b></p>
+  </div>
+
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px">
+    <div class="venta-card" style="background:var(--soft);border:3px solid var(--ink);border-radius:24px;padding:34px 24px;text-align:center;box-shadow:6px 6px 0 var(--ink);transition:all .2s">
+      <div style="width:64px;height:64px;background:var(--yellow);border:2.5px solid var(--ink);border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 0 var(--ink);font-family:'Unbounded','Inter',sans-serif;font-weight:800;font-size:20px;color:var(--ink)">FL</div>
+      <h3 style="font-family:'Unbounded','Inter',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.01em;margin-bottom:8px">Fud Lab</h3>
+      <p style="font-size:14px;font-weight:500;opacity:.75;line-height:1.4">Para los que viven el wellness sin filtro.</p>
+    </div>
+
+    <div class="venta-card" style="background:var(--soft);border:3px solid var(--ink);border-radius:24px;padding:34px 24px;text-align:center;box-shadow:6px 6px 0 var(--ink);transition:all .2s">
+      <div style="width:64px;height:64px;background:var(--yellow);border:2.5px solid var(--ink);border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 0 var(--ink);font-family:'Unbounded','Inter',sans-serif;font-weight:800;font-size:20px;color:var(--ink)">FO</div>
+      <h3 style="font-family:'Unbounded','Inter',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.01em;margin-bottom:8px">Foodie</h3>
+      <p style="font-size:14px;font-weight:500;opacity:.75;line-height:1.4">El súper para quienes leen las etiquetas.</p>
+    </div>
+
+    <div class="venta-card" style="background:var(--soft);border:3px solid var(--ink);border-radius:24px;padding:34px 24px;text-align:center;box-shadow:6px 6px 0 var(--ink);transition:all .2s">
+      <div style="width:64px;height:64px;background:var(--yellow);border:2.5px solid var(--ink);border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 0 var(--ink);font-family:'Unbounded','Inter',sans-serif;font-weight:800;font-size:20px;color:var(--ink)">RS</div>
+      <h3 style="font-family:'Unbounded','Inter',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.01em;margin-bottom:8px">Riba Smith</h3>
+      <p style="font-size:14px;font-weight:500;opacity:.75;line-height:1.4">La cadena de toda la vida, ahora con Alu·Lozza.</p>
+    </div>
+
+    <a href="https://cuanto.app/alulozza" target="_blank" rel="noopener" class="venta-card-online" style="text-decoration:none;color:inherit;display:block">
+      <div style="background:var(--yellow);border:3px solid var(--ink);border-radius:24px;padding:34px 24px;text-align:center;box-shadow:6px 6px 0 var(--ink);transition:all .2s;position:relative">
+        <span style="position:absolute;top:-12px;right:14px;background:var(--ink);color:var(--yellow);padding:4px 12px;border-radius:100px;font-family:'Caveat',cursive;font-weight:700;font-size:15px;border:2px solid var(--ink);transform:rotate(3deg)">a tu puerta</span>
+        <div style="width:64px;height:64px;background:var(--ink);border:2.5px solid var(--ink);border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 0 var(--ink);color:var(--yellow);font-family:'Unbounded','Inter',sans-serif;font-weight:800;font-size:26px">⚡</div>
+        <h3 style="font-family:'Unbounded','Inter',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.01em;margin-bottom:8px">Online</h3>
+        <p style="font-size:14px;font-weight:600;color:var(--ink);line-height:1.4">Te llega a la casa.</p>
+        <p style="margin-top:10px;font-family:'Caveat',cursive;font-weight:700;font-size:18px;color:var(--ink)">cuanto.app/alulozza →</p>
+      </div>
+    </a>
   </div>
 </section>
 
