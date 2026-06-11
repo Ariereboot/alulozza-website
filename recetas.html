@@ -109,10 +109,6 @@ h1.mega .yel{display:inline-block;background:var(--yellow);color:var(--ink);padd
 .btn-cook{background:var(--ink);color:var(--white);padding:11px 16px;border-radius:100px;font-weight:700;font-size:14px;border:none;cursor:pointer;text-align:center;transition:background .15s;font-family:'Familjen Grotesk',sans-serif}
 .btn-cook:hover{background:#222}
 .recipe-card:hover .btn-cook{background:var(--white);color:var(--ink)}
-.btn-share-card{background:#25D366;color:#fff;padding:10px 16px;border-radius:100px;border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:13px;transition:transform .15s;font-family:'Familjen Grotesk',sans-serif}
-.btn-share-card:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-.btn-share-card svg{width:16px;height:16px;display:block;flex-shrink:0}
-.recipe-card:hover .btn-share-card{box-shadow:4px 4px 0 var(--ink)}
 .empty-state{text-align:center;padding:40px;font-family:'Caveat',cursive;font-size:24px;font-weight:700;opacity:.6;grid-column:1/-1}
 
 .cta-bottom{padding:80px 28px;background:var(--ink);color:var(--white);text-align:center;position:relative;overflow:hidden}
@@ -370,10 +366,6 @@ function renderCard(recipe, idx) {
       </div>
       <div class="recipe-actions">
         <button class="btn-cook" data-action="open" data-id="${escapeHtml(recipe.id)}">Ver receta</button>
-        <button class="btn-share-card" data-action="share-wa" data-id="${escapeHtml(recipe.id)}">
-          <svg viewBox="0 0 24 24" fill="white"><path d="M17.5 14.4l-2.6-1.3c-.4-.2-.8-.1-1.1.2l-1.1 1.1c-1.4-.7-2.6-1.9-3.3-3.3l1.1-1.1c.3-.3.4-.7.2-1.1L9.4 6.3c-.2-.5-.7-.7-1.2-.5l-1.5.5c-.5.2-.8.7-.7 1.2.9 4.6 4.6 8.3 9.2 9.2.5.1 1-.2 1.2-.7l.5-1.5c.2-.5 0-1-.4-1.1zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5C8.3 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-          Compartir receta
-        </button>
       </div>
     </article>
   `;
