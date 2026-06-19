@@ -443,23 +443,12 @@ function renderModal(recipe, context) {
     ? `<div class="modal-note"><b>⚡ Nota Alu·Lozza</b>${escapeHtml(recipe.alulozzaNote)}</div>`
     : '';
   const changesHtml = isReboot ? renderRebootChanges(recipe.rebootChanges) : '';
-  let selloHtml = '';
+  let rebootBtnHtml = '';
   let revertHtml = '';
   if (isReboot && ctx.canRevert) {
-    selloHtml = `
-      <button class="sello-reboot active" data-action="revert" title="Volver a versión clásica">
-        <span class="zap-mini">⚡</span>VERSIÓN<br>REBOOT
-      </button>
-      <span class="sello-reboot-hint">activada ✓</span>
-    `;
     revertHtml = `<button class="reboot-back" data-action="revert" style="margin-top:10px;background:transparent;color:var(--ink);border:none;font-family:'Familjen Grotesk';font-weight:600;font-size:13px;cursor:pointer;text-decoration:underline;opacity:.7">← volver a la versión clásica</button>`;
   } else if (!isReboot && ctx.allowReboot !== false) {
-    selloHtml = `
-      <button class="sello-reboot" data-action="reboot" title="Hacerla versión Reboot — harinas nobles, sin aceites de semilla">
-        <span class="zap-mini">⚡</span>VERSIÓN<br>REBOOT
-      </button>
-      <span class="sello-reboot-hint">tócame ↑</span>
-    `;
+    rebootBtnHtml = `<button class="reboot-btn" data-action="reboot" title="Hacerla versión Reboot — harinas nobles, sin aceites de semilla">${BOLT_SVG} Hazla versión Reboot <span class="arr">→</span></button>`;
   }
   const shareRow = `
     <div class="modal-share-row">
@@ -471,7 +460,6 @@ function renderModal(recipe, context) {
     </div>
   `;
   return `
-    ${selloHtml}
     ${badge}
     <span class="modal-cat">${escapeHtml(catName)}</span>
     <h2>${escapeHtml(recipe.title)}</h2>
@@ -482,6 +470,7 @@ function renderModal(recipe, context) {
       <span class="mp">${escapeHtml(recipe.difficulty)}</span>
       <span class="mp">${escapeHtml(String(recipe.servings))} porciones</span>
     </div>
+    ${rebootBtnHtml}
     <div class="modal-sec">
       <h3>Ingredientes</h3>
       <ul class="modal-ing">${ingredientsHtml}</ul>
